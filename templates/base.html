@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title style="align-items: center">
+
+        {% block title %}
+
+        {% endblock %} | Flask app
+
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css?q=1280549780
+">
+</head>
+<body style="background: #a0a1ad">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!--      <a class="navbar-brand" href="{{ url_for('index') }}">Flask</a>-->
+<!--      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+<!--              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('posts.index') }}">Blog <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('posts.create_post') }}">+ New post</a>
+            </li>
+            <li class="nav-item">
+              {% if current_user.has_role('admin') %}
+                <a class="nav-link " href="/admin">Admin</a>
+              {% endif %}
+            </li>
+            {% if not (current_user.has_role('admin')) %}
+             <li class="nav-item">
+              {% if current_user.is_authenticated %}
+                <a class="nav-link " href="{{ url_for('user', username=current_user.username) }}">Hi, {{ current_user.username }}</a>
+              {% endif %}
+            </li>
+            {% endif %}
+            <li>
+                {% if current_user.is_anonymous %}
+                <a class="nav-link" href="/login" tabindex="-1" aria-disabled="">Login</a>
+                {% else %}
+                <a class="nav-link" href="/logout" tabindex="-1" aria-disabled="">Logout</a>
+                {% endif %}
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="get">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                 name="q" value="{{ request.args.get('q', '') }}">
+          <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    <div class="container">
+        <div class="content-wrap">
+
+            {% block content %}
+
+            {% endblock %}
+
+            <div class="blog-container">
+
+                {% block blog_content %}
+
+                {% endblock %}
+
+            </div>
+        </div>
+
+            {% block pagination %}
+
+            {% endblock %}
+
+    </div>
+</body>
+</html>
+
+

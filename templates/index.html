@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Index page
+{% endblock %}
+
+{% block content_title %}
+    BLOG
+{% endblock %}
+
+{% block author %}
+
+    {% for post in posts %}
+<!--        {{ post.author.username }} says:-->
+    {% endfor %}
+
+{% endblock %}
+
+{% block blog_content %}
+
+        {% for post in posts %}
+            <div class="wrap">
+                 <div class="author">
+                    {{ post.author.username }} says:
+                 </div>
+
+                <div class="blog-content">
+                    <p>{{ post.body }}</p>
+                    <div class="created">
+                        {{ post.created }}
+                    </div>
+                </div>
+                <p></p>
+            </div>
+
+        {% endfor %}
+
+{% endblock %}
+
